@@ -29,26 +29,26 @@ bower install meta_umeditor
 
 2. 在html文件中添加引用.
 
-```
+```html
     <!-- 引入umeditor的样式文件 -->
     <link href='/path/to/umeditor.css'>
 
     <!-- 引入umeditor需要的jquery库文件 -->
-    <script src='/path/to/jquery'>
+    <script src='/path/to/jquery'></script>
 
     <!-- 引入umeditor的核心文件 -->
-    <script src='/path/to/umeditor'>
+    <script src='/path/to/umeditor'></script>
 
     <!-- 引入umeditor的配置文件 -->
-    <script src='/path/to/umeditor.config'>
+    <script src='/path/to/umeditor.config'></script>
 
     <!-- 引入meta_umeditor的库文件 -->
-    <script src='/path/to/meta_umeditor'>
+    <script src='/path/to/meta_umeditor'></script>
 ```
 
 3. 在需要加入编辑器的部分加入
 
-```
+```html
     <script type="text/html" ng-model='nothing' meta-umeditor meta-umeditor-placeholder='提示文案...'></script>.
 ```
 
