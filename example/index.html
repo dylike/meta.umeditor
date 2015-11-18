@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angular umeditor</title>
+    <!--<link type="text/css" href="../lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css">-->
+    <link href="../lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <script src="../lib/umeditor/dist/utf8-php/third-party/jquery.min.js"></script>
+    <script src="../lib/umeditor/dist/utf8-php/umeditor.min.js"></script>
+    <script src="../lib/umeditor/dist/utf8-php/umeditor.config.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.4.4/angular.js"></script>
+    <script src="../src/meta.umeditor.js"></script>
+</head>
+<body ng-app="app">
+<!--style给定宽度可以影响编辑器的最终宽度-->
+<!--<script type="text/plain" id="myEditor" style="width:1000px;height:240px;">-->
+<!--<p style="font-size:12px;color:#ccc;">这里我可以写一些输入提示</p>-->
+<!--</script>-->
+
+<div ng-controller="controller">
+    <script type="text/html" style="margin:auto;height:300px;width:300px;" ng-model="text" meta-umeditor
+            meta-umeditor-config='config'
+            meta-umeditor-placeholder="提示文案,placeholder!">
+    </script>
+    <div ng-bind="text">
+    </div>
+</div>
+
+<script>
+    var app = angular.module('app', [
+        'meta.umeditor'
+    ])
+            .run(['$rootScope', function ($rootScope) {
+            }]);
+
+    app.controller('controller', function ($scope) {
+//        $scope.config = {};
+    })
+</script>
+</body>
+</html>
