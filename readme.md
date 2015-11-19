@@ -15,7 +15,7 @@ SimpleDemo
 ## 安装
 
 ```
-bower install meta_umeditor
+bower install meta.umeditor
 ```
 
 ## 特性
@@ -42,8 +42,8 @@ bower install meta_umeditor
     <!-- 引入umeditor的配置文件 -->
     <script src='/path/to/umeditor.config'>
 
-    <!-- 引入meta_umeditor的库文件 -->
-    <script src='/path/to/meta_umeditor'>
+    <!-- 引入meta.umeditor的库文件 -->
+    <script src='/path/to/meta.umeditor'>
 ```
 
 3. 在需要加入编辑器的部分加入

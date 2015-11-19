@@ -1,0 +1,16 @@
+{
+  "name": "meta.umeditor",
+  "version": "0.0.1",
+  "homepage": "https://github.com/dylike/meta.umeditor",
+  "authors": [
+    "dylike"
+  ],
+  "description": "AngularJs,UMEditor,MetaLab",
+  "main": "meta.umeditor.js",
+  "keywords": [
+    "AngularJs",
+    "UMEditor",
+    "MetaLab"
+  ],
+  "license": "MIT"
+}
