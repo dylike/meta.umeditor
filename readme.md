@@ -10,7 +10,7 @@ Umeditor 的 AngularJs插件
 
 本项目依赖[UMEditor](http://ueditor.baidu.com/website/umeditor.html), 依赖[AngularJs](https://angularjs.org/)
 
-SimpleDemo
+SimpleDemo(http://dylike.github.io/meta.umeditor/)
 
 ## 安装
 
