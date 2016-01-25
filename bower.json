@@ -6,7 +6,12 @@
     "dylike"
   ],
   "description": "AngularJs,UMEditor,MetaLab",
-  "main": "meta.umeditor.js",
+  "main": [
+    "lib/dist/utf8-php/umeditor.js",
+    "lib/dist/utf8-php/umeditor.config.js",
+    "lib/dist/utf8-php/themes/default/css/umeditor.css",
+    "src/meta.umeditor.js"
+  ],
   "keywords": [
     "AngularJs",
     "UMEditor",
