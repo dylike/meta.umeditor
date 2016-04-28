@@ -7,9 +7,9 @@
   ],
   "description": "AngularJs,UMEditor,MetaLab",
   "main": [
-    "lib/dist/utf8-php/umeditor.js",
-    "lib/dist/utf8-php/umeditor.config.js",
-    "lib/dist/utf8-php/themes/default/css/umeditor.css",
+    "lib/umeditor/dist/utf8-php/umeditor.js",
+    "lib/umeditor/dist/utf8-php/umeditor.config.js",
+    "lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css",
     "src/meta.umeditor.js"
   ],
   "keywords": [
