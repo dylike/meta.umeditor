@@ -60,10 +60,11 @@ angular.module('meta.umeditor', [])
                 _umeditor.ready(function () {
                     if (ngModel.$viewValue) {
                         _umeditor.setContent(ngModel.$viewValue);
-                        _umeditor.addListener('contentChange', editorToModel);
                     } else {
                         _umeditor.setContent(_placeholder);
                     }
+
+                    _umeditor.addListener('contentChange', editorToModel);
                     //_umeditor.execCommand('fontsize', '32px');
                     //_umeditor.execCommand('fontfamily', '"Microsoft YaHei","微软雅黑"')
                 });
@@ -77,7 +78,6 @@ angular.module('meta.umeditor', [])
                 _umeditor.addListener('focus', function () {
                     if (!ngModel.$viewValue) {
                         _umeditor.setContent('');
-                        _umeditor.addListener('contentChange', editorToModel);
                     }
                 });
 
@@ -90,9 +90,7 @@ angular.module('meta.umeditor', [])
                  */
                 _umeditor.addListener('blur', function () {
                     if (!_umeditor.hasContents()) {
-                        _umeditor.removeListener('contentChange', editorToModel);
                         _umeditor.setContent(_placeholder);
-                    } else {
                     }
                 })
 

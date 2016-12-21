@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>angular umeditor</title>
     <!--<link type="text/css" href="../lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css">-->
-    <link href="bower_components/meta.umeditor/lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css"
-          type="text/css" rel="stylesheet">
-    <script src="bower_components/meta.umeditor/lib/umeditor/dist/utf8-php/third-party/jquery.min.js"></script>
-    <script src="bower_components/meta.umeditor/lib/umeditor/dist/utf8-php/umeditor.min.js"></script>
-    <script src="bower_components/meta.umeditor/lib/umeditor/dist/utf8-php/umeditor.config.js"></script>
-    <script src="//cdn.bootcss.com/angular.js/1.4.4/angular.js"></script>
-    <script src="bower_components/meta.umeditor/src/meta.umeditor.js"></script>
+    <link type="text/css"
+          href="https://raw.githubusercontent.com/dylike/meta.umeditor/master/lib/umeditor/dist/utf8-php/themes/default/css/umeditor.css"
+          rel="stylesheet">
+
     <style>
         .simple {
             /* box */
@@ -65,18 +62,29 @@
     </div>
     <!-- end complete demo -->
 </div>
+<script type="javascript"
+        src="https://raw.githubusercontent.com/dylike/meta.umeditor/master/lib/umeditor/dist/utf8-php/third-party/jquery.min.js"></script>
+<script type="javascript"
+        src="https://raw.githubusercontent.com/dylike/meta.umeditor/master/lib/umeditor/dist/utf8-php/umeditor.js"></script>
+<script type="javascript"
+        src="https://raw.githubusercontent.com/dylike/meta.umeditor/master/lib/umeditor/dist/utf8-php/umeditor.config.js"></script>
+<script type="javascript" src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+<script type="javascript"
+        src="https://raw.githubusercontent.com/dylike/meta.umeditor/master/src/meta.umeditor.js"></script>
 
 <script>
-    var app = angular.module('app', [
-                'meta.umeditor'
-            ])
-            .run(['$rootScope', function ($rootScope) {
-            }]);
-
-    app.controller('controller', function ($scope) {
-//        $scope.config = undefined;
-        $scope.all_config = {};
-    })
+    //    var app = angular.module('app', [
+    //        'meta.umeditor'
+    //    ]).run(['$rootScope', function ($rootScope) {
+    //
+    //    }]);
+    //
+    //    app.controller('controller', function ($scope) {
+    ////        $scope.config = undefined;
+    //        $scope.all_config = {};
+    //        $scope.simple_text = 'hello world';
+    //    })
 </script>
+
 </body>
 </html>
