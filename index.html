@@ -41,24 +41,24 @@
 <div ng-controller="controller" style="width:800px;margin:auto;">
     <!-- simple demo -->
     <div class="simple">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="test.text" meta-umeditor
-                meta-umeditor-config='config'
+        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="model" meta-umeditor
                 meta-umeditor-placeholder="提示文案!这里是简单的示例">
         </script>
         <div class="model">
-            <div ng-bind="test.text"></div>
+            <div ng-bind="model"></div>
         </div>
     </div>
-    <input type="text" ng-model="test.text"/>
+    <input type="text" ng-model="model"/>
 
     <!-- end simple demo -->
     <!-- complete demo -->
     <div class="all">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="test.text" meta-umeditor
+        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="model" meta-umeditor
+                meta-umeditor-config='config'
                 meta-umeditor-placeholder="提示文案!这里是完整的示例">
         </script>
         <div class="model">
-            <div ng-bind="all_text"></div>
+            <div ng-bind="model"></div>
         </div>
     </div>
     <!-- end complete demo -->
@@ -76,13 +76,11 @@
     var app = angular.module('app', [
         'meta.umeditor'
     ]).run(['$rootScope', function ($rootScope) {
-        $rootScope.test = {text: ''};
+
     }]);
 
     app.controller('controller', function ($scope) {
-        //        $scope.config = undefined;
-        $scope.all_config = {};
-        $scope.simple_text = 'hello world';
+        $scope.config = {};
     })
 </script>
 
