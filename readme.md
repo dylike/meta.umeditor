@@ -48,8 +48,32 @@ bower install meta.umeditor
 
 3. 在需要加入编辑器的部分加入
 
+```javascript
+    angular.module('your controller', ['$scope', function($scope) {
+        $scope.umeditorConfig = {
+            //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
+            toolbar: ['source undo redo bold italic underline'],
+
+            //focus时自动清空初始化时的内容
+            autoClearinitialContent: true,
+
+            //关闭字数统计
+            wordCount: false,
+
+            //关闭elementPath
+            elementPathEnabled: false,
+
+            //frame高度
+            //initialFrameHeight: 300
+            //......
+        };
+    }]);
+```
+
 ```html
-    <script type="text/html" ng-model='nothing' meta-umeditor meta-umeditor-placeholder='提示文案...'></script>.
+    <!-- meta-umeditor-config 为umeditor的配置项, 对应的是$scope中的变量名 -->
+    <!-- meta-umeditor-placeholder 为提示文案 -->
+    <script type="text/html" ng-model='nothing' meta-umeditor meta-umeditor-config="umeditorConfig" meta-umeditor-placeholder='提示文案...'></script>.
 ```
 
 ## 作者
