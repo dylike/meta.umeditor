@@ -20,12 +20,19 @@ bower install meta.umeditor
 
 ## 特性
 
-1. 默认随机生成id
-2. 增加提示文案的功能
+1. 默认自动生成id：
+2. 提示文案：`<script meta-umeditor metaUmeditorPlaceholder="your placeholder"></script>`
+3. 全局一键配置：
+```javascript
+angular.module('your app').value('metaUmeditorConfig', {
+    //UMEditor Config
+    ......
+})
+```
 
 ## 使用
 
-1. 下载安装.
+1. `bower install meta.umeditor`下载安装.
 
 2. 在html文件中添加引用.
 
@@ -46,34 +53,17 @@ bower install meta.umeditor
     <script src='/path/to/meta.umeditor'>
 ```
 
-3. 在需要加入编辑器的部分加入
-
+3. 在你的app中引入此模块
 ```javascript
-    angular.module('your controller', ['$scope', function($scope) {
-        $scope.umeditorConfig = {
-            //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
-            toolbar: ['source undo redo bold italic underline'],
-
-            //focus时自动清空初始化时的内容
-            autoClearinitialContent: true,
-
-            //关闭字数统计
-            wordCount: false,
-
-            //关闭elementPath
-            elementPathEnabled: false,
-
-            //frame高度
-            //initialFrameHeight: 300
-            //......
-        };
-    }]);
+    angular.module('your app', ['meta.umeditor'])
 ```
 
+
+4. 在你的页面中使用
 ```html
-    <!-- meta-umeditor-config 为umeditor的配置项, 对应的是$scope中的变量名 -->
+    <!-- meta-umeditor-config 为umeditor的局域配置, 对应$scope中的变量名 -->
     <!-- meta-umeditor-placeholder 为提示文案 -->
-    <script type="text/html" ng-model='nothing' meta-umeditor meta-umeditor-config="umeditorConfig" meta-umeditor-placeholder='提示文案...'></script>.
+    <script type="text/html" ng-model='ngModel' meta-umeditor meta-umeditor-config="umeditorConfig" meta-umeditor-placeholder='提示文案...'></script>.
 ```
 
 ## 作者

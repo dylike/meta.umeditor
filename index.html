@@ -41,19 +41,20 @@
 <div ng-controller="controller" style="width:800px;margin:auto;">
     <!-- simple demo -->
     <div class="simple">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="parent_text" meta-umeditor
+        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="test.text" meta-umeditor
                 meta-umeditor-config='config'
                 meta-umeditor-placeholder="提示文案!这里是简单的示例">
         </script>
         <div class="model">
-            <div ng-bind="parent_text"></div>
+            <div ng-bind="test.text"></div>
         </div>
     </div>
+    <input type="text" ng-model="test.text"/>
+
     <!-- end simple demo -->
     <!-- complete demo -->
     <div class="all">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="all_text" meta-umeditor
-                meta-umeditor-config='all_config'
+        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="test.text" meta-umeditor
                 meta-umeditor-placeholder="提示文案!这里是完整的示例">
         </script>
         <div class="model">
@@ -75,7 +76,7 @@
     var app = angular.module('app', [
         'meta.umeditor'
     ]).run(['$rootScope', function ($rootScope) {
-        $rootScope.parent_text = 'hello word';
+        $rootScope.test = {text: ''};
     }]);
 
     app.controller('controller', function ($scope) {

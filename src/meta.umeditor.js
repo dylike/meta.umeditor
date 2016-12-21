@@ -1,100 +1,122 @@
 /**
  * Created by dylike.
  */
-
 angular.module('meta.umeditor', [])
-    .directive('metaUmeditor', function () {
+    .value('metaUmeditorConfig', {
+        //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
+        toolbar: ['source undo redo bold italic underline'],
+        //focus时自动清空初始化时的内容
+        autoClearinitialContent: true,
+        //关闭字数统计
+        wordCount: false,
+        //关闭elementPath
+        elementPathEnabled: false,
+        //frame高度
+        //initialFrameHeight: 300
+    })
+    .directive('metaUmeditor', ['metaUmeditorConfig', function (metaUmeditorConfig) {
+        'use strict';
+
         return {
             restrict: 'AE',
             scope: {
-                config: '=metaUmeditorConfig'
+                scopeConfig: '=metaUmeditorConfig'
             },
             require: 'ngModel',
             transclude: true,
-            link: function (scope, element, attr, ngModel) {
-                //获取当前的DOM元素
-                var _dom = element[0];
+            link: function (scope, element, attrs, ngModel) {
 
-                var _id = '_' + Math.floor(Math.random() * 100).toString() + new Date().getTime().toString();
+                //获取全局配置,为空
+                var config = scope.scopeConfig || metaUmeditorConfig;
 
-                var _placeholder = '<p style="font-size:14px;color:#ccc;">' +
-                    attr.metaUmeditorPlaceholder +
-                    '</p>';
-
-                var _config = scope.config || {
-                        //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
-                        toolbar: ['source undo redo bold italic underline'],
-                        //focus时自动清空初始化时的内容
-                        autoClearinitialContent: true,
-                        //关闭字数统计
-                        wordCount: false,
-                        //关闭elementPath
-                        elementPathEnabled: false,
-                        //frame高度
-                        //initialFrameHeight: 300
-                    };
-
-                _dom.setAttribute('id', _id);
-
-                var _umeditor = UM.getEditor(_id, _config);
-
-                /**
-                 * 对于umeditor添加内容改变事件，内容改变触发ngModel改变.
-                 */
-                var editorToModel = function () {
-                    if (_umeditor.hasContents())
-                        ngModel.$setViewValue(_umeditor.getContent());
-                    else
-                        ngModel.$setViewValue(undefined);
+                var ctrl = {
+                    initialized: false,
+                    editorInstance: null,
+                    placeholder: attrs['metaUmeditorPlaceholder'] || '',
+                    focus: false
                 };
 
-                /**
-                 * umeditor准备就绪后，执行逻辑
-                 * 如果ngModel存在
-                 *   则给在编辑器中赋值
-                 *   给编辑器添加内容改变的监听事件.
-                 * 如果不存在
-                 *   则写入提示文案
-                 */
+                ctrl.init = function () {
 
-                _umeditor.ready(function () {
-                    if (ngModel.$viewValue) {
-                        _umeditor.setContent(ngModel.$viewValue);
+                    //创建id
+                    if (!attrs.id) {
+                        attrs.$set('id', 'metaUmeditor-' + Math.floor(Math.random() * 100).toString() + new Date().getTime().toString());
+                    }
+
+                    ctrl.createEditor();
+
+                    //重载ngModel的$render方法
+                    ngModel.$render = function () {
+                        if (ctrl.initialized) {
+                            /**
+                             * 重载ngModel的$render方法
+                             */
+                            ctrl.editorInstance.setContent(ngModel.$viewValue || '');
+                            ctrl.checkPlaceholder();
+                        }
+                    };
+
+                    //重载ngModel的isEmpty方法
+                    ngModel.$isEmpty = function (value) {
+                        if (!value) {
+                            return true;
+                        }
+                        if (ctrl.initialized) {
+                            return !ctrl.editorInstance.hasContents();
+                        }
+                    };
+                };
+
+                //创建一个UMEditor实例
+                ctrl.createEditor = function () {
+                    if (!ctrl.initialized) {
+                        ctrl.editorInstance = UM.getEditor(attrs['id'], config);
+                        ctrl.editorInstance.ready(function () {
+                            ctrl.initialized = true;
+                            ctrl.initListener();
+                            ngModel.$render();
+                            ctrl.updateModelView();
+                        });
+                    }
+                };
+
+                //监听多个事件
+                ctrl.initListener = function () {
+                    ctrl.editorInstance.addListener('contentChange', function () {
+                        scope.$evalAsync(ctrl.updateModelView);
+                    });
+                    ctrl.editorInstance.addListener('focus', function () {
+                        ctrl.focus = true;
+                        ctrl.checkPlaceholder();
+                    });
+                    ctrl.editorInstance.addListener('blur', function () {
+                        ctrl.focus = false;
+                        ctrl.checkPlaceholder();
+                    });
+                };
+
+                //修改ngModel Value
+                ctrl.updateModelView = function () {
+                    var modelContent = ctrl.editorInstance.getContent();
+                    ngModel.$setViewValue(modelContent);
+                    if (!scope.$root.$$phase) {
+                        scope.$apply();
+                    }
+                };
+
+                //监测是否需要placeholder
+                ctrl.checkPlaceholder = function () {
+                    var parent =
+                        angular.element('#' + attrs['id']).parent();
+                    if (ctrl.focus || ctrl.editorInstance.hasContents()) {
+                        parent.children('.metaUmeditorPlaceholder').remove();
                     } else {
-                        _umeditor.setContent(_placeholder);
+                        parent.css('position', 'relative').append('<div class="metaUmeditorPlaceholder" style="position:absolute;top:0;left:0;padding:0 10px;line-height: 24px;color:#ccc">' + ctrl.placeholder + '</div>')
                     }
+                };
 
-                    _umeditor.addListener('contentChange', editorToModel);
-                    //_umeditor.execCommand('fontsize', '32px');
-                    //_umeditor.execCommand('fontfamily', '"Microsoft YaHei","微软雅黑"')
-                });
-
-                /**
-                 * 添加编辑器被选中事件
-                 * 如果ngModel没有赋值
-                 *   清空content
-                 *   给编辑器添加内容改变的监听事件
-                 */
-                _umeditor.addListener('focus', function () {
-                    if (!ngModel.$viewValue) {
-                        _umeditor.setContent('');
-                    }
-                });
-
-
-                /**
-                 * 添加编辑器取消选中事件
-                 * 如content值为空
-                 *   取消内容改变的监听事件
-                 *   添加content为提示文案
-                 */
-                _umeditor.addListener('blur', function () {
-                    if (!_umeditor.hasContents()) {
-                        _umeditor.setContent(_placeholder);
-                    }
-                })
-
+                ctrl.init();
             }
         }
-    });
+    }]);
 
