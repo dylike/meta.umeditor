@@ -73,9 +73,12 @@ angular.module('meta.umeditor', [])
                         ctrl.editorInstance = UM.getEditor(attrs['id'], config);
                         ctrl.editorInstance.ready(function () {
                             ctrl.initialized = true;
+                            if(ngModel.$viewValue) {
+                              ngModel.$render();
+                            } else {
+                              ctrl.updateModelView;
+                            }
                             ctrl.initListener();
-                            ngModel.$render();
-                            ctrl.updateModelView();
                         });
                     }
                 };

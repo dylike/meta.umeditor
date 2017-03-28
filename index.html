@@ -41,24 +41,25 @@
 <div ng-controller="controller" style="width:800px;margin:auto;">
     <!-- simple demo -->
     <div class="simple">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="model" meta-umeditor
-                meta-umeditor-placeholder="提示文案!这里是简单的示例">
-        </script>
+        <div type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="SimpleModel.text" meta-umeditor
+             meta-umeditor-placeholder="提示文案!这里是简单的示例">
+        </div>
         <div class="model">
-            <div ng-bind="model"></div>
+            <div ng-bind="SimpleModel.text"></div>
         </div>
     </div>
-    <input type="text" ng-model="model"/>
 
     <!-- end simple demo -->
     <!-- complete demo -->
     <div class="all">
-        <script type="text/html" style="margin:auto;height:300px;width:100%;" ng-model="model" meta-umeditor
-                meta-umeditor-config='config'
-                meta-umeditor-placeholder="提示文案!这里是完整的示例">
-        </script>
+        <div ng-if="condition" type="text/html" style="margin:auto;height:300px;width:100%;"
+             ng-model="CompleteModel.text"
+             meta-umeditor
+             meta-umeditor-config='config'
+             meta-umeditor-placeholder="提示文案!这里是完整的示例">
+        </div>
         <div class="model">
-            <div ng-bind="model"></div>
+            <div ng-bind="CompleteModel.text"></div>
         </div>
     </div>
     <!-- end complete demo -->
@@ -73,15 +74,22 @@
 <script src="./src/meta.umeditor.js"></script>
 
 <script>
-    var app = angular.module('app', [
-        'meta.umeditor'
-    ]).run(['$rootScope', function ($rootScope) {
+  var app = angular.module('app', [
+    'meta.umeditor'
+  ]).run([
+    '$rootScope', function ($rootScope) {
 
     }]);
 
-    app.controller('controller', function ($scope) {
-        $scope.config = {};
-    })
+  app.controller('controller', function ($scope, $timeout) {
+    $scope.config = {};
+    $scope.CompleteModel = {
+      text: '<p>Hello World</p>'
+    };
+    $timeout(function () {
+      $scope.condition = true;
+    }, 2000);
+  });
 </script>
 
 </body>
