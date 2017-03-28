@@ -65,31 +65,31 @@
     <!-- end complete demo -->
 </div>
 <script
-        src="./lib/umeditor/dist/utf8-php/third-party/jquery.min.js"></script>
+    src="./lib/umeditor/dist/utf8-php/third-party/jquery.min.js"></script>
 <script
-        src="./lib/umeditor/dist/utf8-php/umeditor.js"></script>
+    src="./lib/umeditor/dist/utf8-php/umeditor.js"></script>
 <script
-        src="./lib/umeditor/dist/utf8-php/umeditor.config.js"></script>
+    src="./lib/umeditor/dist/utf8-php/umeditor.config.js"></script>
 <script src="//cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
 <script src="./src/meta.umeditor.js"></script>
 
 <script>
-  var app = angular.module('app', [
-    'meta.umeditor'
-  ]).run([
-    '$rootScope', function ($rootScope) {
+    var app = angular.module('app', [
+        'meta.umeditor'
+    ]).run([
+        '$rootScope', function ($rootScope) {
 
-    }]);
+        }]);
 
-  app.controller('controller', function ($scope, $timeout) {
-    $scope.config = {};
-    $scope.CompleteModel = {
-      text: '<p>Hello World</p>'
-    };
-    $timeout(function () {
-      $scope.condition = true;
-    }, 2000);
-  });
+    app.controller('controller', function ($scope, $timeout) {
+        $scope.config = {};
+        $scope.CompleteModel = {
+            text: '<p>Hello World</p>'
+        };
+        $timeout(function () {
+            $scope.condition = true;
+        }, 2000);
+    });
 </script>
 
 </body>

@@ -1,20 +1,19 @@
 /**
  * Created by dylike.
  */
-angular.module('meta.umeditor', [])
-    .value('metaUmeditorConfig', {
-        //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
-        toolbar: ['source undo redo bold italic underline'],
-        //focus时自动清空初始化时的内容
-        autoClearinitialContent: true,
-        //关闭字数统计
-        wordCount: false,
-        //关闭elementPath
-        elementPathEnabled: false,
-        //frame高度
-        //initialFrameHeight: 300
-    })
-    .directive('metaUmeditor', ['metaUmeditorConfig', function (metaUmeditorConfig) {
+angular.module('meta.umeditor', []).value('metaUmeditorConfig', {
+    //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
+    toolbar: ['source undo redo bold italic underline'],
+    //focus时自动清空初始化时的内容
+    autoClearinitialContent: true,
+    //关闭字数统计
+    wordCount: false,
+    //关闭elementPath
+    elementPathEnabled: false
+    //frame高度
+    //initialFrameHeight: 300
+}).directive('metaUmeditor', [
+    'metaUmeditorConfig', function (metaUmeditorConfig) {
         'use strict';
 
         return {
@@ -25,6 +24,14 @@ angular.module('meta.umeditor', [])
             require: 'ngModel',
             transclude: true,
             link: function (scope, element, attrs, ngModel) {
+
+                try {
+                    if (UM) {}
+                } catch (e) {
+                    console.error(
+                        'Can not find UM, You should import the UMEditor library!');
+                    return;
+                }
 
                 //获取全局配置,为空
                 var config = scope.scopeConfig || metaUmeditorConfig;
@@ -40,7 +47,10 @@ angular.module('meta.umeditor', [])
 
                     //创建id
                     if (!attrs.id) {
-                        attrs.$set('id', 'metaUmeditor-' + Math.floor(Math.random() * 100).toString() + new Date().getTime().toString());
+                        attrs.$set('id',
+                            'metaUmeditor-' +
+                            Math.floor(Math.random() * 100).toString() +
+                            new Date().getTime().toString());
                     }
 
                     ctrl.createEditor();
@@ -51,7 +61,8 @@ angular.module('meta.umeditor', [])
                             /**
                              * 重载ngModel的$render方法
                              */
-                            ctrl.editorInstance.setContent(ngModel.$viewValue || '');
+                            ctrl.editorInstance.setContent(
+                                ngModel.$viewValue || '');
                             ctrl.checkPlaceholder();
                         }
                     };
@@ -73,21 +84,28 @@ angular.module('meta.umeditor', [])
                         ctrl.editorInstance = UM.getEditor(attrs['id'], config);
                         ctrl.editorInstance.ready(function () {
                             ctrl.initialized = true;
-                            if(ngModel.$viewValue) {
-                              ngModel.$render();
+                            /**
+                             * 在初始化时
+                             * 如果是ngModel中有值，则直接渲染ngModel的值到 editorInstance
+                             * 否则检查editorInstance是否有初始值，渲染至ngModel
+                             */
+                            if (ngModel.$viewValue) {
+                                ngModel.$render();
                             } else {
-                              ctrl.updateModelView;
+                                ctrl.updateModelView;
                             }
                             ctrl.initListener();
+                            ctrl.checkPlaceholder();
                         });
                     }
                 };
 
                 //监听多个事件
                 ctrl.initListener = function () {
-                    ctrl.editorInstance.addListener('contentChange', function () {
-                        scope.$evalAsync(ctrl.updateModelView);
-                    });
+                    ctrl.editorInstance.addListener('contentChange',
+                        function () {
+                            scope.$evalAsync(ctrl.updateModelView);
+                        });
                     ctrl.editorInstance.addListener('focus', function () {
                         ctrl.focus = true;
                         ctrl.checkPlaceholder();
@@ -110,16 +128,31 @@ angular.module('meta.umeditor', [])
                 //监测是否需要placeholder
                 ctrl.checkPlaceholder = function () {
                     var parent =
-                        angular.element('#' + attrs['id']).parent();
-                    if (ctrl.focus || ctrl.editorInstance.hasContents()) {
-                        parent.children('.metaUmeditorPlaceholder').remove();
+                        document.getElementById(attrs['id']).parentNode;
+                    if (ctrl.focus || (ngModel.$viewValue &&
+                        ctrl.editorInstance.hasContents())) {
+                        var _dom = parent.getElementsByClassName(
+                            'metaUmeditorPlaceholder')[0];
+                        if (_dom) {
+                            parent.removeChild(_dom);
+                        }
                     } else {
-                        parent.css('position', 'relative').append('<div class="metaUmeditorPlaceholder" style="position:absolute;top:0;left:0;padding:0 10px;line-height: 24px;color:#ccc">' + ctrl.placeholder + '</div>')
+                        parent.style.position = 'relative';
+                        var _dom = document.createElement('div');
+                        _dom.className = 'metaUmeditorPlaceholder';
+                        _dom.style.position = 'absolute';
+                        _dom.style.top = 0;
+                        _dom.style.left = 0;
+                        _dom.style.padding = '0 10px';
+                        _dom.style.lineHeight = '24px';
+                        _dom.style.color = '#ccc';
+                        _dom.innerText = ctrl.placeholder;
+                        parent.appendChild(_dom);
                     }
                 };
 
                 ctrl.init();
             }
-        }
+        };
     }]);
 
