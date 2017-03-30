@@ -85,15 +85,10 @@ angular.module('meta.umeditor', []).value('metaUmeditorConfig', {
                         ctrl.editorInstance.ready(function () {
                             ctrl.initialized = true;
                             /**
-                             * 在初始化时
-                             * 如果是ngModel中有值，则直接渲染ngModel的值到 editorInstance
-                             * 否则检查editorInstance是否有初始值，渲染至ngModel
+                             * 在初始化时,调用ngModel的$render
+                             * 直接渲染ngModel的值到 editorInstance
                              */
-                            if (ngModel.$viewValue) {
-                                ngModel.$render();
-                            } else {
-                                ctrl.updateModelView;
-                            }
+                            ngModel.$render();
                             ctrl.initListener();
                             ctrl.checkPlaceholder();
                         });
